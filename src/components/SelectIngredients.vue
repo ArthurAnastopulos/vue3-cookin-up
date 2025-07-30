@@ -2,9 +2,10 @@
 import { obterCategorias } from '@/http/index';
 import type ICategory from '@/interfaces/ICategory';
 import CardCategory from './CardCategory.vue';
+import mainButton from './mainButton.vue';
 
 export default {
- components: { CardCategory },
+ components: { CardCategory, mainButton },
   data() {
     return {
       categorias: [] as ICategory[]
@@ -12,7 +13,8 @@ export default {
   },
   async created() {
     this.categorias = await obterCategorias();
-  }
+  },
+  emits: ['adicionarIngrediente', 'removerIngrediente']
 }
 </script>
 <template>
@@ -25,13 +27,18 @@ export default {
 
       <ul class="categorias">
             <li v-for="categoria in categorias" :key="categoria.nome">
-                <CardCategory :categoria="categoria" />
+                <CardCategory :categoria="categoria"
+                    @adicionar-ingrediente="$emit('adicionarIngrediente', $event)"
+                    @remover-ingrediente="$emit('removerIngrediente', $event)"
+                />
              </li>
       </ul>
 
       <p class="paragrafo dica">
         *Atenção: consideramos que você tem em casa sal, pimenta e água.
       </p>
+
+      <mainButton texto="Buscar receitas!" />
     </section>
 </template>
 <style scoped>

@@ -1,11 +1,15 @@
 <script lang="ts">
 import SelectIngredients from './SelectIngredients.vue';
 import MyList from './MyList.vue';
+import ShowRecipe from './ShowRecipe.vue';
+
+type Pagina = 'SelecionarIngredientes' | 'MostrarReceitas';
 
 export default {
     data() {
         return {
-            ingredientes: [] as string[]
+            ingredientes: [] as string[],
+            conteudo: 'SelecionarIngredientes' as Pagina
         };
     },
     methods: {
@@ -15,17 +19,28 @@ export default {
         removerIngrediente(ingrediente: string) {
             this.ingredientes = this.ingredientes.filter(iLista => ingrediente !== iLista);
         },
+        navegar(pagina: Pagina) {
+            this.conteudo = pagina;
+        }
     },
-    components: { SelectIngredients, MyList }
+    components: { SelectIngredients, MyList, ShowRecipe }
 }
 </script>
 <template>
     <main class="conteudo-principal">
         <MyList :ingredientes="ingredientes" />
-        <SelectIngredients
-            @adicionar-ingrediente="adicionarIngrediente"
-            @remover-ingrediente="removerIngrediente"
-        />
+        <KeepAlive>
+            <SelectIngredients v-if="conteudo === 'SelecionarIngredientes'"
+                @adicionar-ingrediente="adicionarIngrediente"
+                @remover-ingrediente="removerIngrediente"
+                @buscar-receitas="navegar('MostrarReceitas')"
+            />
+            <ShowRecipe
+                v-else-if="conteudo === 'MostrarReceitas'"
+                :ingredientes="ingredientes"
+                @editar-receitas="navegar('SelecionarIngredientes')"
+            />
+        </KeepAlive>
     </main>
 </template>
 <style scoped>

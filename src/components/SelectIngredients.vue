@@ -5,6 +5,7 @@ import CardCategory from './CardCategory.vue';
 import mainButton from './mainButton.vue';
 
 export default {
+ name: 'SelecionarIngredientes',
  components: { CardCategory, mainButton },
   data() {
     return {
@@ -14,7 +15,7 @@ export default {
   async created() {
     this.categorias = await obterCategorias();
   },
-  emits: ['adicionarIngrediente', 'removerIngrediente']
+  emits: ['adicionarIngrediente', 'removerIngrediente', 'buscarReceitas']
 }
 </script>
 <template>
@@ -38,7 +39,7 @@ export default {
         *Atenção: consideramos que você tem em casa sal, pimenta e água.
       </p>
 
-      <mainButton texto="Buscar receitas!" />
+      <mainButton texto="Buscar receitas!" @click="$emit('buscarReceitas')"  />
     </section>
 </template>
 <style scoped>

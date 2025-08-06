@@ -30,6 +30,12 @@ docker build -t vue3-app .
 docker run -d -p 5173:5173 vue3-app
 
 ```
+
+## Demonstração
+
+ - [Demonstração via Vercel](https://vue3-cookin-up.vercel.app/)
+
+
 ## Referência
 
  - [Alura - Vue 3: entendendo componentes, diretivas e reatividade no framework](https://cursos.alura.com.br/course/vue-3-componentes-diretivas-reatividade-framework)
